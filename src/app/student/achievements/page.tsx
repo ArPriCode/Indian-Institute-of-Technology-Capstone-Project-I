@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Trophy, Lock, Star, Zap, Flame, BookOpen, Award, Target, Users, Clock } from "lucide-react";
+import { Trophy, Lock, Star, Zap, Target, Users } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 
 const ACHIEVEMENTS = [
@@ -27,114 +26,104 @@ const LEADERBOARD = [
   { rank: 5, name: "Anita Patel", xp: 1100, avatar: "https://api.dicebear.com/8.x/avataaars/svg?seed=anita" },
 ];
 
-export default function AchievementsPage() {
-  const earned = ACHIEVEMENTS.filter((a) => a.earned);
-  const totalXP = earned.reduce((sum, a) => sum + a.xp, 0);
+const card = {
+  background: "rgba(30,30,45,0.95)",
+  border: "1px solid rgba(255,255,255,0.1)",
+  borderRadius: "16px",
+  padding: "20px",
+};
 
+const earned = ACHIEVEMENTS.filter((a) => a.earned);
+
+export default function AchievementsPage() {
   return (
     <DashboardLayout requiredRole="student">
-      <div className="space-y-6">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl font-bold text-white mb-1">
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+
+        <div>
+          <h1 style={{ fontSize: "28px", fontWeight: 700, color: "white", marginBottom: "4px" }}>
             <span className="gradient-text">Achievements</span>
           </h1>
-          <p className="text-white/50">Your badges and accomplishments</p>
-        </motion.div>
+          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px" }}>Your badges and accomplishments</p>
+        </div>
 
         {/* Summary */}
-        <div className="grid grid-cols-3 gap-4">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "14px" }}>
           {[
-            { label: "Earned", value: earned.length, icon: Trophy, color: "from-yellow-500 to-orange-500" },
-            { label: "Total XP from Badges", value: totalXP, icon: Zap, color: "from-indigo-500 to-purple-500" },
-            { label: "Remaining", value: ACHIEVEMENTS.length - earned.length, icon: Target, color: "from-purple-500 to-pink-500" },
-          ].map(({ label, value, icon: Icon, color }, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-card p-5 text-center"
-            >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mx-auto mb-3`}>
-                <Icon className="w-6 h-6 text-white" />
+            { label: "Earned", value: earned.length, icon: Trophy, color: "#f59e0b" },
+            { label: "XP from Badges", value: earned.reduce((s, a) => s + a.xp, 0), icon: Zap, color: "#6366f1" },
+            { label: "Remaining", value: ACHIEVEMENTS.length - earned.length, icon: Target, color: "#8b5cf6" },
+          ].map(({ label, value, icon: Icon, color }) => (
+            <div key={label} style={{ ...card, textAlign: "center" }}>
+              <div style={{ width: "44px", height: "44px", borderRadius: "12px", background: color + "33", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 10px" }}>
+                <Icon style={{ width: "22px", height: "22px", color }} />
               </div>
-              <div className="text-2xl font-bold text-white">{value}</div>
-              <div className="text-white/50 text-sm">{label}</div>
-            </motion.div>
+              <div style={{ fontSize: "24px", fontWeight: 700, color: "white" }}>{value}</div>
+              <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", marginTop: "4px" }}>{label}</div>
+            </div>
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Achievements Grid */}
-          <div className="lg:col-span-2">
-            <h3 className="text-white font-semibold text-lg mb-4">All Badges</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {ACHIEVEMENTS.map((achievement, i) => (
-                <motion.div
-                  key={achievement.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.05 }}
-                  className={`glass-card p-5 text-center relative overflow-hidden transition-all duration-300 ${
-                    achievement.earned ? "hover:scale-105 cursor-pointer" : "opacity-50"
-                  }`}
-                >
-                  {achievement.earned && (
-                    <div className="absolute top-2 right-2 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                      <Star className="w-3 h-3 text-white fill-white" />
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "16px" }}>
+          {/* Badges Grid */}
+          <div>
+            <h3 style={{ color: "white", fontWeight: 600, fontSize: "16px", marginBottom: "14px" }}>All Badges</h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
+              {ACHIEVEMENTS.map((a) => (
+                <div key={a.id} style={{
+                  ...card, textAlign: "center", position: "relative",
+                  opacity: a.earned ? 1 : 0.45,
+                  border: a.earned ? "1px solid rgba(99,102,241,0.3)" : "1px solid rgba(255,255,255,0.08)",
+                }}>
+                  {a.earned && (
+                    <div style={{ position: "absolute", top: "8px", right: "8px", width: "18px", height: "18px", borderRadius: "50%", background: "#10b981", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <Star style={{ width: "10px", height: "10px", color: "white", fill: "white" }} />
                     </div>
                   )}
-                  {!achievement.earned && (
-                    <div className="absolute top-2 right-2">
-                      <Lock className="w-4 h-4 text-white/30" />
+                  {!a.earned && (
+                    <div style={{ position: "absolute", top: "8px", right: "8px" }}>
+                      <Lock style={{ width: "14px", height: "14px", color: "rgba(255,255,255,0.3)" }} />
                     </div>
                   )}
-                  <div className="text-4xl mb-3">{achievement.icon}</div>
-                  <div className="text-white font-semibold text-sm mb-1">{achievement.label}</div>
-                  <div className="text-white/40 text-xs mb-2">{achievement.description}</div>
-                  <div className="flex items-center justify-center gap-1">
-                    <Zap className="w-3 h-3 text-yellow-400" />
-                    <span className="text-yellow-400 text-xs font-medium">+{achievement.xp} XP</span>
+                  <div style={{ fontSize: "32px", marginBottom: "8px" }}>{a.icon}</div>
+                  <div style={{ color: "white", fontWeight: 600, fontSize: "13px", marginBottom: "4px" }}>{a.label}</div>
+                  <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", marginBottom: "6px" }}>{a.description}</div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "4px" }}>
+                    <Zap style={{ width: "12px", height: "12px", color: "#fbbf24" }} />
+                    <span style={{ color: "#fbbf24", fontSize: "12px", fontWeight: 600 }}>+{a.xp} XP</span>
                   </div>
-                  {achievement.earned && achievement.date && (
-                    <div className="text-white/30 text-xs mt-1">{achievement.date}</div>
-                  )}
-                </motion.div>
+                  {a.earned && a.date && <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", marginTop: "4px" }}>{a.date}</div>}
+                </div>
               ))}
             </div>
           </div>
 
           {/* Leaderboard */}
           <div>
-            <h3 className="text-white font-semibold text-lg mb-4">Leaderboard</h3>
-            <div className="glass-card p-4 space-y-3">
-              {LEADERBOARD.map(({ rank, name, xp, avatar, isYou }) => (
-                <div
-                  key={rank}
-                  className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
-                    isYou ? "bg-indigo-500/20 border border-indigo-500/30" : "hover:bg-white/5"
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
-                    rank === 1 ? "bg-yellow-500 text-black" :
-                    rank === 2 ? "bg-gray-400 text-black" :
-                    rank === 3 ? "bg-orange-600 text-white" :
-                    "bg-white/10 text-white/60"
-                  }`}>
-                    {rank}
-                  </div>
-                  <img src={avatar} alt={name} className="w-8 h-8 rounded-full" />
-                  <div className="flex-1">
-                    <div className={`text-sm font-medium ${isYou ? "text-indigo-300" : "text-white"}`}>
-                      {name} {isYou && "(You)"}
+            <h3 style={{ color: "white", fontWeight: 600, fontSize: "16px", marginBottom: "14px" }}>Leaderboard</h3>
+            <div style={card}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                {LEADERBOARD.map(({ rank, name, xp, avatar, isYou }) => (
+                  <div key={rank} style={{
+                    display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", borderRadius: "12px",
+                    background: isYou ? "rgba(99,102,241,0.15)" : "rgba(255,255,255,0.03)",
+                    border: isYou ? "1px solid rgba(99,102,241,0.3)" : "1px solid transparent",
+                  }}>
+                    <div style={{
+                      width: "28px", height: "28px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
+                      fontWeight: 700, fontSize: "13px", flexShrink: 0,
+                      background: rank === 1 ? "#f59e0b" : rank === 2 ? "#9ca3af" : rank === 3 ? "#b45309" : "rgba(255,255,255,0.1)",
+                      color: rank <= 3 ? "black" : "rgba(255,255,255,0.6)",
+                    }}>{rank}</div>
+                    <img src={avatar} alt={name} style={{ width: "32px", height: "32px", borderRadius: "50%" }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ color: isYou ? "#a5b4fc" : "white", fontSize: "13px", fontWeight: 600 }}>{name}{isYou ? " (You)" : ""}</div>
+                      <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px" }}>{xp.toLocaleString()} XP</div>
                     </div>
-                    <div className="text-white/40 text-xs">{xp.toLocaleString()} XP</div>
+                    {rank <= 3 && <span style={{ fontSize: "18px" }}>{rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉"}</span>}
                   </div>
-                  {rank <= 3 && (
-                    <span className="text-lg">{rank === 1 ? "🥇" : rank === 2 ? "🥈" : "🥉"}</span>
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -53,12 +53,55 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchUserProfile = async (uid: string): Promise<UserProfile | null> => {
+    try {
+      const docSnap = await getDoc(doc(db, "users", uid));
+      return docSnap.exists() ? (docSnap.data() as UserProfile) : null;
+    } catch {
+      return null;
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
-        const profile = await fetchUserProfile(firebaseUser.uid);
-        setUserProfile(profile);
+        try {
+          const profile = await fetchUserProfile(firebaseUser.uid);
+          if (!profile) {
+            const defaultProfile: UserProfile = {
+              uid: firebaseUser.uid,
+              email: firebaseUser.email || "",
+              displayName: firebaseUser.displayName || "User",
+              photoURL: firebaseUser.photoURL || `https://api.dicebear.com/8.x/avataaars/svg?seed=${firebaseUser.uid}`,
+              role: "student",
+              bio: "",
+              skills: [],
+              enrolledCourses: [],
+              createdCourses: [],
+              xp: 0,
+              level: 1,
+              streak: 0,
+              createdAt: serverTimestamp(),
+            };
+            await setDoc(doc(db, "users", firebaseUser.uid), defaultProfile);
+            setUserProfile(defaultProfile);
+          } else {
+            setUserProfile(profile);
+          }
+        } catch {
+          // Firestore error — still show dashboard with basic info
+          setUserProfile({
+            uid: firebaseUser.uid,
+            email: firebaseUser.email || "",
+            displayName: firebaseUser.displayName || "User",
+            photoURL: firebaseUser.photoURL || "",
+            role: "student",
+            xp: 0,
+            level: 1,
+            streak: 0,
+          });
+        }
       } else {
         setUserProfile(null);
       }
@@ -67,28 +110,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return unsubscribe;
   }, []);
 
-  const fetchUserProfile = async (uid: string): Promise<UserProfile | null> => {
-    try {
-      const docRef = doc(db, "users", uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        return docSnap.data() as UserProfile;
-      }
-      return null;
-    } catch {
-      return null;
-    }
-  };
-
-  const createUserProfile = async (user: User, role: UserRole, extraData?: Partial<UserProfile>) => {
-    const docRef = doc(db, "users", user.uid);
+  const createUserProfile = async (firebaseUser: User, role: UserRole, extraData?: Partial<UserProfile>) => {
+    const docRef = doc(db, "users", firebaseUser.uid);
     const existing = await getDoc(docRef);
     if (!existing.exists()) {
       const profile: UserProfile = {
-        uid: user.uid,
-        email: user.email || "",
-        displayName: user.displayName || extraData?.displayName || "User",
-        photoURL: user.photoURL || `https://api.dicebear.com/8.x/avataaars/svg?seed=${user.uid}`,
+        uid: firebaseUser.uid,
+        email: firebaseUser.email || "",
+        displayName: firebaseUser.displayName || extraData?.displayName || "User",
+        photoURL: firebaseUser.photoURL || `https://api.dicebear.com/8.x/avataaars/svg?seed=${firebaseUser.uid}`,
         role,
         bio: "",
         skills: [],

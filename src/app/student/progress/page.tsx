@@ -1,34 +1,23 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  TrendingUp, Clock, BookOpen, Award, Zap, Target,
-  Calendar, CheckCircle, Flame
-} from "lucide-react";
+import { TrendingUp, Clock, BookOpen, Zap, Target, Flame, Calendar } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useAuth } from "@/lib/auth-context";
 import { getLevelFromXP, getProgressPercent } from "@/lib/utils";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, RadarChart, Radar, PolarGrid,
-  PolarAngleAxis, BarChart, Bar
+  ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, BarChart, Bar
 } from "recharts";
 
 const WEEKLY_DATA = [
-  { day: "Mon", hours: 2.5, xp: 120, lessons: 4 },
-  { day: "Tue", hours: 1.8, xp: 90, lessons: 3 },
-  { day: "Wed", hours: 3.2, xp: 160, lessons: 6 },
-  { day: "Thu", hours: 2.0, xp: 100, lessons: 4 },
-  { day: "Fri", hours: 4.1, xp: 200, lessons: 8 },
-  { day: "Sat", hours: 3.5, xp: 175, lessons: 7 },
-  { day: "Sun", hours: 1.5, xp: 75, lessons: 3 },
+  { day: "Mon", xp: 120, hours: 2.5 },
+  { day: "Tue", xp: 90, hours: 1.8 },
+  { day: "Wed", xp: 160, hours: 3.2 },
+  { day: "Thu", xp: 100, hours: 2.0 },
+  { day: "Fri", xp: 200, hours: 4.1 },
+  { day: "Sat", xp: 175, hours: 3.5 },
+  { day: "Sun", xp: 75, hours: 1.5 },
 ];
-
-const MONTHLY_DATA = Array.from({ length: 30 }, (_, i) => ({
-  day: i + 1,
-  xp: Math.floor(Math.random() * 200) + 50,
-  hours: Math.random() * 4 + 0.5,
-}));
 
 const SKILL_DATA = [
   { skill: "React", value: 85 },
@@ -40,10 +29,21 @@ const SKILL_DATA = [
 ];
 
 const COURSE_PROGRESS = [
-  { name: "React & Next.js", progress: 65, color: "from-indigo-500 to-purple-500" },
-  { name: "Python for DS", progress: 32, color: "from-purple-500 to-pink-500" },
-  { name: "Web3 & Blockchain", progress: 10, color: "from-cyan-500 to-blue-500" },
+  { name: "React & Next.js", progress: 65, color: "#6366f1" },
+  { name: "Python for DS", progress: 32, color: "#8b5cf6" },
+  { name: "Web3 Dev", progress: 10, color: "#06b6d4" },
 ];
+
+const card = {
+  background: "rgba(30,30,45,0.95)",
+  border: "1px solid rgba(255,255,255,0.1)",
+  borderRadius: "16px",
+  padding: "20px",
+};
+
+const tooltipStyle = {
+  contentStyle: { background: "rgba(20,20,35,0.95)", border: "1px solid rgba(99,102,241,0.4)", borderRadius: "10px", color: "white" }
+};
 
 export default function StudentProgressPage() {
   const { userProfile } = useAuth();
@@ -53,226 +53,123 @@ export default function StudentProgressPage() {
 
   return (
     <DashboardLayout requiredRole="student">
-      <div className="space-y-6">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl font-bold text-white mb-1">
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+
+        <div>
+          <h1 style={{ fontSize: "28px", fontWeight: 700, color: "white", marginBottom: "4px" }}>
             Learning <span className="gradient-text">Progress</span>
           </h1>
-          <p className="text-white/50">Track your growth and achievements</p>
-        </motion.div>
+          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px" }}>Track your growth and achievements</p>
+        </div>
 
-        {/* Summary Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Stats */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "14px" }}>
           {[
-            { label: "Total XP", value: xp.toLocaleString(), icon: Zap, color: "from-yellow-500 to-orange-500" },
-            { label: "Current Level", value: `Level ${level}`, icon: Target, color: "from-indigo-500 to-purple-500" },
-            { label: "Hours Learned", value: "47h", icon: Clock, color: "from-cyan-500 to-blue-500" },
-            { label: "Day Streak", value: `${userProfile?.streak || 7}🔥`, icon: Flame, color: "from-red-500 to-orange-500" },
-          ].map(({ label, value, icon: Icon, color }, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-card p-5"
-            >
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-3`}>
-                <Icon className="w-5 h-5 text-white" />
+            { label: "Total XP", value: xp.toLocaleString(), icon: Zap, color: "#f59e0b" },
+            { label: "Current Level", value: `Level ${level}`, icon: Target, color: "#6366f1" },
+            { label: "Hours Learned", value: "47h", icon: Clock, color: "#06b6d4" },
+            { label: "Day Streak", value: `${userProfile?.streak || 7}🔥`, icon: Flame, color: "#ef4444" },
+          ].map(({ label, value, icon: Icon, color }) => (
+            <div key={label} style={card}>
+              <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: color + "33", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "10px" }}>
+                <Icon style={{ width: "20px", height: "20px", color }} />
               </div>
-              <div className="text-2xl font-bold text-white">{value}</div>
-              <div className="text-white/50 text-sm">{label}</div>
-            </motion.div>
+              <div style={{ fontSize: "22px", fontWeight: 700, color: "white" }}>{value}</div>
+              <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px", marginTop: "4px" }}>{label}</div>
+            </div>
           ))}
         </div>
 
         {/* Level Progress */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="glass-card p-6"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold text-lg">Level Progress</h3>
-            <span className="text-indigo-400 font-bold">{progress}%</span>
+        <div style={card}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+            <h3 style={{ color: "white", fontWeight: 600 }}>Level Progress</h3>
+            <span style={{ color: "#818cf8", fontWeight: 700 }}>{progress}%</span>
           </div>
-          <div className="h-4 bg-white/10 rounded-full overflow-hidden mb-2">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="h-full progress-bar"
-            />
+          <div style={{ height: "12px", background: "rgba(255,255,255,0.1)", borderRadius: "999px", overflow: "hidden", marginBottom: "8px" }}>
+            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,#6366f1,#8b5cf6,#ec4899)", borderRadius: "999px" }} />
           </div>
-          <div className="flex justify-between text-sm text-white/40">
-            <span>Level {level} — {xp} XP</span>
-            <span>Level {level + 1} — {level * 500} XP</span>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>Level {level} — {xp} XP</span>
+            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>Level {level + 1} — {level * 500} XP</span>
           </div>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
-          {/* Weekly XP Chart */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="glass-card p-6"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-white font-semibold">Weekly XP Earned</h3>
-              <div className="flex items-center gap-1 text-emerald-400 text-sm">
-                <TrendingUp className="w-4 h-4" />
-                <span>+23%</span>
+        {/* Charts Row */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+          <div style={card}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+              <h3 style={{ color: "white", fontWeight: 600 }}>Weekly XP</h3>
+              <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#34d399", fontSize: "13px" }}>
+                <TrendingUp style={{ width: "14px", height: "14px" }} />+23%
               </div>
             </div>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={180}>
               <BarChart data={WEEKLY_DATA}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="day" stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 12 }} />
-                <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{
-                    background: "rgba(15,15,40,0.95)",
-                    border: "1px solid rgba(99,102,241,0.3)",
-                    borderRadius: "12px",
-                    color: "white",
-                  }}
-                />
-                <Bar dataKey="xp" fill="url(#barGradient)" radius={[4, 4, 0, 0]} />
-                <defs>
-                  <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#6366f1" />
-                    <stop offset="100%" stopColor="#8b5cf6" />
-                  </linearGradient>
-                </defs>
+                <XAxis dataKey="day" stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 11, fill: "rgba(255,255,255,0.5)" }} />
+                <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 11, fill: "rgba(255,255,255,0.5)" }} />
+                <Tooltip {...tooltipStyle} />
+                <Bar dataKey="xp" fill="#6366f1" radius={[4, 4, 0, 0]} name="XP" />
               </BarChart>
             </ResponsiveContainer>
-          </motion.div>
+          </div>
 
-          {/* Skill Radar */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="glass-card p-6"
-          >
-            <h3 className="text-white font-semibold mb-4">Skill Distribution</h3>
-            <ResponsiveContainer width="100%" height={200}>
+          <div style={card}>
+            <h3 style={{ color: "white", fontWeight: 600, marginBottom: "16px" }}>Skill Distribution</h3>
+            <ResponsiveContainer width="100%" height={180}>
               <RadarChart data={SKILL_DATA}>
                 <PolarGrid stroke="rgba(255,255,255,0.1)" />
                 <PolarAngleAxis dataKey="skill" tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }} />
-                <Radar
-                  name="Skills"
-                  dataKey="value"
-                  stroke="#6366f1"
-                  fill="#6366f1"
-                  fillOpacity={0.3}
-                />
+                <Radar name="Skills" dataKey="value" stroke="#6366f1" fill="#6366f1" fillOpacity={0.3} />
               </RadarChart>
             </ResponsiveContainer>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Monthly Activity */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="glass-card p-6"
-        >
-          <h3 className="text-white font-semibold mb-4">Monthly Activity (Last 30 Days)</h3>
-          <ResponsiveContainer width="100%" height={180}>
-            <AreaChart data={MONTHLY_DATA}>
-              <defs>
-                <linearGradient id="monthGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="day" stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 10 }} />
-              <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 10 }} />
-              <Tooltip
-                contentStyle={{
-                  background: "rgba(15,15,40,0.95)",
-                  border: "1px solid rgba(139,92,246,0.3)",
-                  borderRadius: "12px",
-                  color: "white",
-                }}
-              />
-              <Area type="monotone" dataKey="xp" stroke="#8b5cf6" strokeWidth={2} fill="url(#monthGradient)" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </motion.div>
-
         {/* Course Progress */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="glass-card p-6"
-        >
-          <div className="flex items-center gap-2 mb-6">
-            <BookOpen className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-white font-semibold text-lg">Course Progress</h3>
+        <div style={card}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "20px" }}>
+            <BookOpen style={{ width: "18px", height: "18px", color: "#818cf8" }} />
+            <h3 style={{ color: "white", fontWeight: 600, fontSize: "16px" }}>Course Progress</h3>
           </div>
-          <div className="space-y-5">
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {COURSE_PROGRESS.map(({ name, progress: p, color }) => (
               <div key={name}>
-                <div className="flex justify-between mb-2">
-                  <span className="text-white font-medium text-sm">{name}</span>
-                  <span className="text-white/50 text-sm">{p}%</span>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
+                  <span style={{ color: "white", fontWeight: 500, fontSize: "14px" }}>{name}</span>
+                  <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px" }}>{p}%</span>
                 </div>
-                <div className="h-2.5 bg-white/10 rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${p}%` }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                    className={`h-full bg-gradient-to-r ${color} rounded-full`}
-                  />
+                <div style={{ height: "8px", background: "rgba(255,255,255,0.1)", borderRadius: "999px", overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${p}%`, background: color, borderRadius: "999px", transition: "width 1s ease" }} />
                 </div>
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Calendar Heatmap (simplified) */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="glass-card p-6"
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <Calendar className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-white font-semibold">Activity Calendar</h3>
+        {/* Activity Calendar */}
+        <div style={card}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+            <Calendar style={{ width: "18px", height: "18px", color: "#818cf8" }} />
+            <h3 style={{ color: "white", fontWeight: 600 }}>Activity Calendar</h3>
           </div>
-          <div className="grid grid-cols-7 gap-1.5">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "6px" }}>
             {Array.from({ length: 35 }, (_, i) => {
               const intensity = Math.random();
-              return (
-                <div
-                  key={i}
-                  title={`${Math.floor(intensity * 200)} XP`}
-                  className={`h-8 rounded-md transition-all hover:scale-110 cursor-pointer ${
-                    intensity > 0.8 ? "bg-indigo-500" :
-                    intensity > 0.6 ? "bg-indigo-500/70" :
-                    intensity > 0.4 ? "bg-indigo-500/40" :
-                    intensity > 0.2 ? "bg-indigo-500/20" :
-                    "bg-white/5"
-                  }`}
-                />
-              );
+              const bg = intensity > 0.8 ? "#6366f1" : intensity > 0.6 ? "rgba(99,102,241,0.6)" : intensity > 0.4 ? "rgba(99,102,241,0.35)" : intensity > 0.2 ? "rgba(99,102,241,0.15)" : "rgba(255,255,255,0.05)";
+              return <div key={i} style={{ height: "28px", borderRadius: "6px", background: bg, cursor: "pointer", transition: "transform 0.1s" }} />;
             })}
           </div>
-          <div className="flex items-center gap-2 mt-3 text-xs text-white/30">
-            <span>Less</span>
-            {["bg-white/5", "bg-indigo-500/20", "bg-indigo-500/40", "bg-indigo-500/70", "bg-indigo-500"].map((c) => (
-              <div key={c} className={`w-4 h-4 rounded ${c}`} />
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "10px" }}>
+            <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px" }}>Less</span>
+            {["rgba(255,255,255,0.05)", "rgba(99,102,241,0.15)", "rgba(99,102,241,0.35)", "rgba(99,102,241,0.6)", "#6366f1"].map((bg) => (
+              <div key={bg} style={{ width: "14px", height: "14px", borderRadius: "3px", background: bg }} />
             ))}
-            <span>More</span>
+            <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px" }}>More</span>
           </div>
-        </motion.div>
+        </div>
+
       </div>
     </DashboardLayout>
   );

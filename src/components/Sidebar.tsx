@@ -54,7 +54,7 @@ export default function Sidebar() {
 
   return (
     <aside className="fixed left-0 top-0 h-full w-64 z-40 flex flex-col">
-      <div className="h-full flex flex-col rounded-none border-r border-white/[0.06] bg-black" style={{ borderLeft: 'none', borderTop: 'none', borderBottom: 'none' }}>
+      <div className="h-full flex flex-col rounded-none border-r border-white/[0.08] bg-[#0f0f18]" style={{ borderLeft: 'none', borderTop: 'none', borderBottom: 'none' }}>
         {/* Logo */}
         <div className="p-6 border-b border-white/10">
           <Link href="/" className="flex items-center gap-3">

@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   BookOpen, TrendingUp, Award, Clock, Flame, Star,
   Play, ChevronRight, Zap, Target, Trophy, Brain
@@ -16,13 +15,13 @@ import {
 } from "recharts";
 
 const ACTIVITY_DATA = [
-  { day: "Mon", hours: 2.5, xp: 120 },
-  { day: "Tue", hours: 1.8, xp: 90 },
-  { day: "Wed", hours: 3.2, xp: 160 },
-  { day: "Thu", hours: 2.0, xp: 100 },
-  { day: "Fri", hours: 4.1, xp: 200 },
-  { day: "Sat", hours: 3.5, xp: 175 },
-  { day: "Sun", hours: 1.5, xp: 75 },
+  { day: "Mon", xp: 120 },
+  { day: "Tue", xp: 90 },
+  { day: "Wed", xp: 160 },
+  { day: "Thu", xp: 100 },
+  { day: "Fri", xp: 200 },
+  { day: "Sat", xp: 175 },
+  { day: "Sun", xp: 75 },
 ];
 
 const ACHIEVEMENTS = [
@@ -34,219 +33,173 @@ const ACHIEVEMENTS = [
   { icon: "🌟", label: "Star Performer", earned: false },
 ];
 
+const card = {
+  background: "rgba(30,30,45,0.95)",
+  border: "1px solid rgba(255,255,255,0.1)",
+  borderRadius: "16px",
+  padding: "20px",
+};
+
 export default function StudentDashboard() {
   const { userProfile } = useAuth();
   const [enrolledCourses] = useState(COURSES.slice(0, 3));
-  const [xp] = useState(userProfile?.xp || 1250);
+  const xp = userProfile?.xp || 1250;
   const level = getLevelFromXP(xp);
   const progress = getProgressPercent(xp);
 
   return (
     <DashboardLayout requiredRole="student">
-      <div className="space-y-8">
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between"
-        >
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <h1 className="text-3xl font-bold text-white mb-1">
+            <h1 style={{ fontSize: "28px", fontWeight: 700, color: "white", marginBottom: "4px" }}>
               Welcome back, <span className="gradient-text">{userProfile?.displayName?.split(" ")[0] || "Learner"}</span> 👋
             </h1>
-            <p className="text-white/50">Continue your learning journey. You&apos;re doing great!</p>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px" }}>Continue your learning journey. You&apos;re doing great!</p>
           </div>
-          <div className="hidden md:flex items-center gap-3 glass-card px-5 py-3">
-            <Flame className="w-5 h-5 text-orange-400" />
+          <div style={{ ...card, display: "flex", alignItems: "center", gap: "10px", padding: "12px 20px" }}>
+            <Flame style={{ width: "20px", height: "20px", color: "#fb923c" }} />
             <div>
-              <div className="text-white font-bold">{userProfile?.streak || 7} days</div>
-              <div className="text-white/40 text-xs">Current streak</div>
+              <div style={{ color: "white", fontWeight: 700 }}>{userProfile?.streak || 7} days</div>
+              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px" }}>Current streak</div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}>
           {[
-            { label: "Courses Enrolled", value: enrolledCourses.length, icon: BookOpen, color: "from-indigo-500 to-purple-500", suffix: "" },
-            { label: "Hours Learned", value: 47, icon: Clock, color: "from-purple-500 to-pink-500", suffix: "h" },
-            { label: "XP Points", value: xp, icon: Zap, color: "from-cyan-500 to-blue-500", suffix: "" },
-            { label: "Certificates", value: 2, icon: Award, color: "from-emerald-500 to-teal-500", suffix: "" },
-          ].map(({ label, value, icon: Icon, color, suffix }, i) => (
-            <motion.div
-              key={label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-card p-5 group hover:scale-105 transition-transform duration-300"
-            >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-3 shadow-lg`}>
-                <Icon className="w-6 h-6 text-white" />
+            { label: "Courses Enrolled", value: enrolledCourses.length, icon: BookOpen, color: "#6366f1" },
+            { label: "Hours Learned", value: "47h", icon: Clock, color: "#8b5cf6" },
+            { label: "XP Points", value: formatNumber(xp), icon: Zap, color: "#06b6d4" },
+            { label: "Certificates", value: 2, icon: Award, color: "#10b981" },
+          ].map(({ label, value, icon: Icon, color }) => (
+            <div key={label} style={card}>
+              <div style={{ width: "44px", height: "44px", borderRadius: "12px", background: color + "33", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "12px" }}>
+                <Icon style={{ width: "22px", height: "22px", color }} />
               </div>
-              <div className="text-2xl font-bold text-white">{formatNumber(value)}{suffix}</div>
-              <div className="text-white/50 text-sm mt-1">{label}</div>
-            </motion.div>
+              <div style={{ fontSize: "24px", fontWeight: 700, color: "white" }}>{value}</div>
+              <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", marginTop: "4px" }}>{label}</div>
+            </div>
           ))}
         </div>
 
         {/* Level Progress */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="glass-card p-6"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-lg">
-                <Trophy className="w-6 h-6 text-white" />
+        <div style={card}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{ width: "44px", height: "44px", borderRadius: "12px", background: "rgba(245,158,11,0.2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Trophy style={{ width: "22px", height: "22px", color: "#f59e0b" }} />
               </div>
               <div>
-                <h3 className="text-white font-semibold">Level {level} Learner</h3>
-                <p className="text-white/40 text-sm">{xp} / {level * 500} XP to Level {level + 1}</p>
+                <div style={{ color: "white", fontWeight: 600 }}>Level {level} Learner</div>
+                <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>{xp} / {level * 500} XP to Level {level + 1}</div>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-2xl font-bold gradient-text">{progress}%</div>
-              <div className="text-white/40 text-xs">Progress</div>
+            <div style={{ textAlign: "right" }}>
+              <div className="gradient-text" style={{ fontSize: "24px", fontWeight: 700 }}>{progress}%</div>
+              <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px" }}>Progress</div>
             </div>
           </div>
-          <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="h-full progress-bar"
-            />
+          <div style={{ height: "10px", background: "rgba(255,255,255,0.1)", borderRadius: "999px", overflow: "hidden" }}>
+            <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899)", borderRadius: "999px", transition: "width 1s ease" }} />
           </div>
-          <div className="flex justify-between mt-2 text-xs text-white/30">
-            <span>Level {level}</span>
-            <span>Level {level + 1}</span>
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px" }}>
+            <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>Level {level}</span>
+            <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>Level {level + 1}</span>
           </div>
-        </motion.div>
+        </div>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        {/* Chart + Achievements */}
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "16px" }}>
           {/* Activity Chart */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="lg:col-span-2 glass-card p-6"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-white font-semibold text-lg">Weekly Activity</h3>
-              <div className="flex items-center gap-2 text-indigo-400 text-sm">
-                <TrendingUp className="w-4 h-4" />
-                <span>+23% this week</span>
+          <div style={card}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+              <h3 style={{ color: "white", fontWeight: 600, fontSize: "16px" }}>Weekly Activity</h3>
+              <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#34d399", fontSize: "13px" }}>
+                <TrendingUp style={{ width: "14px", height: "14px" }} />
+                +23% this week
               </div>
             </div>
             <ResponsiveContainer width="100%" height={200}>
               <AreaChart data={ACTIVITY_DATA}>
                 <defs>
-                  <linearGradient id="xpGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
+                  <linearGradient id="xpGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.5} />
                     <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                <XAxis dataKey="day" stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 12 }} />
-                <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{
-                    background: "rgba(15,15,40,0.95)",
-                    border: "1px solid rgba(99,102,241,0.3)",
-                    borderRadius: "12px",
-                    color: "white",
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="xp"
-                  stroke="#6366f1"
-                  strokeWidth={2}
-                  fill="url(#xpGradient)"
-                />
+                <XAxis dataKey="day" stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 12, fill: "rgba(255,255,255,0.5)" }} />
+                <YAxis stroke="rgba(255,255,255,0.3)" tick={{ fontSize: 12, fill: "rgba(255,255,255,0.5)" }} />
+                <Tooltip contentStyle={{ background: "rgba(20,20,35,0.95)", border: "1px solid rgba(99,102,241,0.4)", borderRadius: "10px", color: "white" }} />
+                <Area type="monotone" dataKey="xp" stroke="#6366f1" strokeWidth={2} fill="url(#xpGrad)" />
               </AreaChart>
             </ResponsiveContainer>
-          </motion.div>
+          </div>
 
           {/* Achievements */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            className="glass-card p-6"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-white font-semibold text-lg">Achievements</h3>
-              <Link href="/student/achievements" className="text-indigo-400 text-sm hover:text-indigo-300">
-                View all
-              </Link>
+          <div style={card}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+              <h3 style={{ color: "white", fontWeight: 600, fontSize: "16px" }}>Achievements</h3>
+              <Link href="/student/achievements" style={{ color: "#818cf8", fontSize: "13px", textDecoration: "none" }}>View all</Link>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
               {ACHIEVEMENTS.map(({ icon, label, earned }) => (
-                <div
-                  key={label}
-                  className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all ${
-                    earned ? "glass border border-yellow-500/30" : "opacity-30 glass"
-                  }`}
-                >
-                  <span className="text-2xl">{icon}</span>
-                  <span className="text-white/60 text-xs text-center leading-tight">{label}</span>
+                <div key={label} style={{
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: "4px",
+                  padding: "10px 6px", borderRadius: "12px",
+                  background: earned ? "rgba(99,102,241,0.15)" : "rgba(255,255,255,0.04)",
+                  border: earned ? "1px solid rgba(99,102,241,0.3)" : "1px solid rgba(255,255,255,0.06)",
+                  opacity: earned ? 1 : 0.4,
+                }}>
+                  <span style={{ fontSize: "22px" }}>{icon}</span>
+                  <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "10px", textAlign: "center", lineHeight: "1.3" }}>{label}</span>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Continue Learning */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold text-xl">Continue Learning</h3>
-            <Link href="/student/courses" className="flex items-center gap-1 text-indigo-400 text-sm hover:text-indigo-300">
-              All courses <ChevronRight className="w-4 h-4" />
+        <div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
+            <h3 style={{ color: "white", fontWeight: 600, fontSize: "18px" }}>Continue Learning</h3>
+            <Link href="/student/courses" style={{ display: "flex", alignItems: "center", gap: "4px", color: "#818cf8", fontSize: "13px", textDecoration: "none" }}>
+              All courses <ChevronRight style={{ width: "14px", height: "14px" }} />
             </Link>
           </div>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px" }}>
             {enrolledCourses.map((course, i) => {
               const courseProgress = [65, 32, 10][i];
               return (
-                <div key={course.id} className="glass-card overflow-hidden group hover:scale-[1.02] transition-all duration-300">
-                  <div className="relative h-36 overflow-hidden">
-                    <img
-                      src={course.thumbnail}
-                      alt={course.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = `https://api.dicebear.com/8.x/shapes/svg?seed=${course.id}`;
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute bottom-3 left-3 right-3">
-                      <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
-                        <div
-                          className="h-full progress-bar"
-                          style={{ width: `${courseProgress}%` }}
-                        />
+                <div key={course.id} style={{ ...card, padding: 0, overflow: "hidden" }}>
+                  <div style={{ position: "relative", height: "130px", overflow: "hidden" }}>
+                    <img src={course.thumbnail} alt={course.title} style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/8.x/shapes/svg?seed=${course.id}`; }} />
+                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }} />
+                    <div style={{ position: "absolute", bottom: "10px", left: "12px", right: "12px" }}>
+                      <div style={{ height: "4px", background: "rgba(255,255,255,0.2)", borderRadius: "999px", overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${courseProgress}%`, background: "linear-gradient(90deg,#6366f1,#8b5cf6)" }} />
                       </div>
-                      <div className="flex justify-between mt-1">
-                        <span className="text-white/60 text-xs">{courseProgress}% complete</span>
-                        <span className="text-white/60 text-xs">{course.lessons} lessons</span>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px" }}>
+                        <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "11px" }}>{courseProgress}% complete</span>
+                        <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "11px" }}>{course.lessons} lessons</span>
                       </div>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <h4 className="text-white font-medium text-sm mb-1 line-clamp-1">{course.title}</h4>
-                    <p className="text-white/40 text-xs mb-3">{course.instructor}</p>
-                    <Link
-                      href={`/student/courses/${course.id}`}
-                      className="flex items-center justify-center gap-2 py-2 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 text-sm font-medium transition-colors"
-                    >
-                      <Play className="w-3 h-3" />
+                  <div style={{ padding: "14px" }}>
+                    <h4 style={{ color: "white", fontWeight: 600, fontSize: "13px", marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{course.title}</h4>
+                    <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px", marginBottom: "12px" }}>{course.instructor}</p>
+                    <Link href={`/student/courses/${course.id}`} style={{
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
+                      padding: "8px", borderRadius: "10px", background: "rgba(99,102,241,0.2)",
+                      color: "#a5b4fc", fontSize: "13px", fontWeight: 600, textDecoration: "none",
+                      border: "1px solid rgba(99,102,241,0.3)"
+                    }}>
+                      <Play style={{ width: "12px", height: "12px" }} />
                       Continue
                     </Link>
                   </div>
@@ -254,52 +207,43 @@ export default function StudentDashboard() {
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Recommended Courses */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Brain className="w-5 h-5 text-purple-400" />
-              <h3 className="text-white font-semibold text-xl">Recommended for You</h3>
-            </div>
+        {/* Recommended */}
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+            <Brain style={{ width: "20px", height: "20px", color: "#a78bfa" }} />
+            <h3 style={{ color: "white", fontWeight: 600, fontSize: "18px" }}>Recommended for You</h3>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "14px" }}>
             {COURSES.slice(4, 8).map((course) => (
-              <div key={course.id} className="glass-card p-4 group hover:scale-[1.02] transition-all duration-300 cursor-pointer">
-                <div className="flex items-start gap-3">
-                  <img
-                    src={course.thumbnail}
-                    alt={course.title}
-                    className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = `https://api.dicebear.com/8.x/shapes/svg?seed=${course.id}`;
-                    }}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs text-indigo-400 mb-1">{course.category}</div>
-                    <h4 className="text-white text-sm font-medium line-clamp-2 mb-1">{course.title}</h4>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                      <span className="text-white/50 text-xs">{course.rating}</span>
+              <div key={course.id} style={card}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+                  <img src={course.thumbnail} alt={course.title} style={{ width: "56px", height: "56px", borderRadius: "10px", objectFit: "cover", flexShrink: 0 }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = `https://api.dicebear.com/8.x/shapes/svg?seed=${course.id}`; }} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ color: "#818cf8", fontSize: "11px", marginBottom: "4px" }}>{course.category}</div>
+                    <h4 style={{ color: "white", fontSize: "13px", fontWeight: 600, marginBottom: "4px", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{course.title}</h4>
+                    <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                      <Star style={{ width: "12px", height: "12px", color: "#fbbf24", fill: "#fbbf24" }} />
+                      <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px" }}>{course.rating}</span>
                     </div>
                   </div>
                 </div>
-                <Link
-                  href={`/student/courses/${course.id}`}
-                  className="mt-3 flex items-center justify-center gap-1 py-2 rounded-lg glass-button text-white/70 text-xs font-medium"
-                >
-                  <Target className="w-3 h-3" />
+                <Link href={`/student/courses/${course.id}`} style={{
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: "6px",
+                  marginTop: "12px", padding: "7px", borderRadius: "10px",
+                  background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.7)", fontSize: "12px", fontWeight: 600, textDecoration: "none"
+                }}>
+                  <Target style={{ width: "12px", height: "12px" }} />
                   Enroll Free
                 </Link>
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
+
       </div>
     </DashboardLayout>
   );

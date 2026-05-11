@@ -15,23 +15,19 @@ export default function DashboardLayout({ children, requiredRole }: DashboardLay
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        router.push("/auth/login");
-        return;
-      }
-      if (requiredRole && userProfile?.role !== requiredRole) {
-        router.push(userProfile?.role === "teacher" ? "/teacher/dashboard" : "/student/dashboard");
-      }
+    if (loading) return;
+    if (!user) {
+      router.push("/auth/login");
     }
-  }, [user, userProfile, loading, requiredRole, router]);
+  }, [user, loading, router]);
 
+  // Only show full spinner while auth is loading
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-white/50">Loading EduNexa...</p>
+          <p className="text-white/50 text-sm">Loading EduNexa...</p>
         </div>
       </div>
     );
@@ -39,6 +35,7 @@ export default function DashboardLayout({ children, requiredRole }: DashboardLay
 
   if (!user) return null;
 
+  // Always render content — don't block on userProfile
   return (
     <div className="flex min-h-screen bg-black">
       <Sidebar />
