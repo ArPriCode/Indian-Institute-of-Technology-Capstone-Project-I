@@ -3,11 +3,11 @@
 # 🎓 EduNexa
 ### Smart Skill-Based Online Tutoring Platform
 
-<img src="https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js&logoColor=white" />
-<img src="https://img.shields.io/badge/Firebase-10.12-orange?style=for-the-badge&logo=firebase&logoColor=white" />
-<img src="https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript&logoColor=white" />
-<img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
-<img src="https://img.shields.io/badge/Framer_Motion-11.2-purple?style=for-the-badge&logo=framer&logoColor=white" />
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.9-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
+[![Firebase](https://img.shields.io/badge/Firebase-10.12-orange?style=for-the-badge&logo=firebase&logoColor=white)](https://firebase.google.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
 
 <br/>
 
@@ -16,7 +16,29 @@
 
 <br/>
 
-![EduNexa Banner](https://img.shields.io/badge/🖤_Pure_Black_Glassmorphism_UI-EduNexa-6366f1?style=for-the-badge)
+---
+
+## 🔗 Important Links
+
+| | Link |
+|---|---|
+| 🌐 **Live Demo** | [https://indian-institute-of-technology-caps-sigma.vercel.app](https://indian-institute-of-technology-caps-sigma.vercel.app) |
+| 📁 **GitHub Repo** | [https://github.com/ArPriCode/Indian-Institute-of-Technology-Capstone-Project-I](https://github.com/ArPriCode/Indian-Institute-of-Technology-Capstone-Project-I) |
+| 📊 **Presentation (PPT)** | [View on Google Drive](https://drive.google.com/file/d/1wF_JCYK5EZoag7l-lwTFLcdrF1IkY7Vn/view) |
+
+---
+
+## 👨‍💻 Project Info
+
+| Field | Details |
+|-------|---------|
+| **Student** | Arun Kumar Giri |
+| **Roll No** | UA2504AIH48 |
+| **Institution** | IIT Patna |
+| **Program** | Hybrid Program in Full Stack Development |
+| **Project** | Capstone Project I |
+| **Submission Date** | 6 May, 2026 |
+| **Instructor** | IIT Patna |
 
 </div>
 
@@ -25,14 +47,15 @@
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
+- [Live Demo](#-live-demo)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [Firebase Setup](#-firebase-setup)
 - [Pages & Routes](#-pages--routes)
+- [Architecture](#-architecture)
 - [Screenshots](#-screenshots)
-- [Team](#-team)
 
 ---
 
@@ -42,17 +65,32 @@
 
 ### 🎯 Problem Statement
 Traditional learning systems lack:
-- ❌ Personalization
+- ❌ Personalization and adaptive learning
 - ❌ Real-time performance tracking
-- ❌ Structured skill-based paths
+- ❌ Structured skill-based learning paths
 - ❌ Direct teacher-student connection
+- ❌ Gamified engagement systems
 
 ### ✅ EduNexa Solution
-- 🤖 AI-powered instructor matching
-- 📊 Real-time XP & progress tracking
-- 🎯 Structured learning paths
-- 💬 Direct messaging between students & teachers
+- 🤖 Smart instructor-student matching
+- 📊 Real-time XP, level & progress tracking
+- 🎯 Structured skill-based learning paths
+- 💬 Direct real-time messaging
 - 🏆 Gamified learning with badges & leaderboard
+- 📜 Auto-generated certificates on completion
+- 🧠 Quiz system with instant scoring
+
+---
+
+## 🚀 Live Demo
+
+**👉 [https://indian-institute-of-technology-caps-sigma.vercel.app](https://indian-institute-of-technology-caps-sigma.vercel.app)**
+
+### Test Credentials
+| Role | How to Login |
+|------|-------------|
+| Student | Click "Get Started" → Select Student → Google Login |
+| Teacher | Click "Become a Teacher" → Select Teacher → Google Login |
 
 ---
 
@@ -62,62 +100,70 @@ Traditional learning systems lack:
 
 | Feature | Description |
 |---------|-------------|
-| 🔐 **Authentication** | Google, GitHub, Email/Password via Firebase |
-| 📊 **Dashboard** | XP points, level, streak, activity charts |
-| 📚 **Course Catalog** | 850+ courses with search & filters |
-| 🎬 **Video Lessons** | YouTube-embedded course player |
-| 📈 **Progress Tracking** | Radar charts, bar charts, activity calendar |
-| 🏆 **Achievements** | Badges, XP rewards, global leaderboard |
+| 🔐 **Authentication** | Google, GitHub, Email/Password via Firebase Auth |
+| 📊 **Dashboard** | XP points, level, streak counter, activity charts |
+| 📚 **Course Catalog** | 8+ courses with search, category & level filters |
+| 🎬 **Video Lessons** | YouTube-embedded course player with curriculum |
+| 📈 **Progress Tracking** | Radar charts, bar charts, activity heatmap calendar |
+| 🏆 **Achievements** | 12 badges, XP rewards, global leaderboard |
+| 🧠 **Quiz System** | Per-course quizzes with instant scoring & XP rewards |
+| 📜 **Certificates** | Auto-generated on 100% course completion |
 | 💬 **Messaging** | Real-time chat with instructors |
-| 👤 **Profile** | Skills, bio, social links management |
+| 👤 **Profile** | Skills, bio, social links, avatar management |
+| ⚙️ **Settings** | Notifications, privacy, appearance toggles |
 
 ### 👨‍🏫 Teacher Module
 
 | Feature | Description |
 |---------|-------------|
-| 📝 **Course Builder** | Drag-and-drop curriculum editor |
-| 📊 **Analytics** | Enrollment trends, completion rates, ratings |
-| 👥 **Student Management** | Progress tracking, filtering, messaging |
+| 📊 **Dashboard** | Student enrollment charts, recent activity |
+| 📝 **Course Builder** | Section + lesson curriculum editor with YouTube embed |
+| 📈 **Analytics** | Enrollment trends, completion rates, ratings charts |
+| 👥 **Student Management** | Progress tracking, filtering, status monitoring |
 | 💬 **Messaging** | Direct communication with students |
-| 🎓 **Profile** | Qualifications, expertise, institution |
-| 📈 **Performance** | Revenue charts, student growth metrics |
+| 🎓 **Profile** | Qualifications, expertise areas, institution |
+| ⚙️ **Settings** | Notification preferences |
 
 ### 🎨 Design System
 
-- 🖤 **Pure Black** background (`#000000`)
-- 🔮 **Glassmorphism** cards with backdrop blur
-- ✨ **Animated orbs** (subtle 8% opacity)
-- � **Gradient text** (indigo → purple → pink)
-- 📱 **Fully responsive** design
-- ⚡ **Framer Motion** animations throughout
+| Element | Value |
+|---------|-------|
+| Background | Pure `#000000` Black |
+| Cards | `rgba(30,30,45,0.95)` Dark Glass |
+| Border | `rgba(255,255,255,0.1)` |
+| Primary Gradient | `indigo-400 → purple-400 → pink-400` |
+| Orbs | 8% opacity animated blobs |
+| Font | Inter (system-ui fallback) |
+| Style | Web3 Glassmorphism |
 
 ---
 
 ## 🛠️ Tech Stack
 
 ```
-Frontend          Backend/DB        UI/UX
-─────────         ──────────        ─────
-Next.js 14        Firebase Auth     Tailwind CSS
-React 18          Firestore DB      Framer Motion
-TypeScript 5      Firebase Storage  Lucide Icons
-                                    Recharts
-                                    React Hot Toast
+Frontend              Backend/DB            UI/UX
+─────────             ──────────            ─────
+Next.js 15.3.9        Firebase Auth         Tailwind CSS 3.4
+React 18.3.1          Firestore DB          Framer Motion 11
+TypeScript 5.4        Firebase Storage      Lucide Icons
+                      Firestore Rules       Recharts 2.12
+                                            React Hot Toast
 ```
 
 ### Full Dependencies
 
 | Package | Version | Purpose |
 |---------|---------|---------|
-| `next` | 14.2.3 | React Framework |
-| `firebase` | 10.12.0 | Auth + Database |
-| `framer-motion` | 11.2.10 | Animations |
-| `tailwindcss` | 3.4.1 | Styling |
-| `recharts` | 2.12.7 | Data Charts |
-| `lucide-react` | 0.379.0 | Icons |
-| `react-hot-toast` | 2.4.1 | Notifications |
-| `react-firebase-hooks` | 5.1.1 | Firebase Hooks |
-| `clsx` + `tailwind-merge` | latest | Class Utils |
+| `next` | 15.3.9 | React Framework with App Router |
+| `firebase` | 10.12.0 | Auth + Firestore + Storage |
+| `framer-motion` | 11.2.10 | Page & component animations |
+| `tailwindcss` | 3.4.1 | Utility-first CSS framework |
+| `recharts` | 2.12.7 | Data visualization charts |
+| `lucide-react` | 0.468.0 | Icon library |
+| `react-hot-toast` | 2.4.1 | Toast notifications |
+| `react-firebase-hooks` | 5.1.1 | Firebase React hooks |
+| `clsx` + `tailwind-merge` | latest | Class name utilities |
+| `autoprefixer` | 10.4.19 | CSS vendor prefixing |
 
 ---
 
@@ -125,60 +171,66 @@ TypeScript 5      Firebase Storage  Lucide Icons
 
 ```
 edunexa/
-├── 📄 .env.local                    # Firebase config (gitignored)
+├── 📄 .env.local                         # Firebase config (gitignored)
+├── 📄 .npmrc                             # legacy-peer-deps=true
 ├── 📄 next.config.js
 ├── 📄 tailwind.config.ts
-├── � tsconfig.json
+├── 📄 tsconfig.json
 │
 └── src/
     ├── app/
-    │   ├── 📄 layout.tsx            # Root layout + providers
-    │   ├── 📄 page.tsx              # Landing page
+    │   ├── 📄 layout.tsx                 # Root layout + providers
+    │   ├── 📄 page.tsx                   # Landing page
+    │   ├── 📄 globals.css                # Global styles + glassmorphism
     │   │
     │   ├── auth/
-    │   │   ├── login/               # Login page
-    │   │   ├── register/            # Registration page
-    │   │   └── reset-password/      # Password reset
+    │   │   ├── login/                    # Login (Google/GitHub/Email)
+    │   │   ├── register/                 # Register as Student/Teacher
+    │   │   └── reset-password/           # Password reset
     │   │
     │   ├── student/
-    │   │   ├── dashboard/           # 📊 Student home
-    │   │   ├── courses/             # 📚 Course catalog
-    │   │   │   └── [id]/            # 🎬 Course detail + player
-    │   │   ├── progress/            # 📈 Learning analytics
-    │   │   ├── achievements/        # 🏆 Badges + leaderboard
-    │   │   ├── messages/            # 💬 Chat with teachers
-    │   │   ├── profile/             # 👤 Student profile
-    │   │   └── settings/            # ⚙️ App settings
+    │   │   ├── dashboard/                # 📊 Student home
+    │   │   ├── courses/                  # 📚 Course catalog
+    │   │   │   └── [id]/                 # 🎬 Course detail + player
+    │   │   ├── progress/                 # 📈 Learning analytics
+    │   │   ├── achievements/             # 🏆 Badges + leaderboard
+    │   │   ├── quiz/[courseId]/          # 🧠 Quiz system
+    │   │   ├── certificate/[courseId]/   # 📜 Certificate generator
+    │   │   ├── messages/                 # 💬 Chat with teachers
+    │   │   ├── profile/                  # 👤 Student profile
+    │   │   └── settings/                 # ⚙️ App settings
     │   │
     │   └── teacher/
-    │       ├── dashboard/           # 📊 Teacher home
-    │       ├── courses/             # 📚 Course management
-    │       ├── create-course/       # 📝 Course builder
-    │       ├── analytics/           # 📈 Teaching analytics
-    │       ├── students/            # 👥 Student management
-    │       ├── messages/            # 💬 Chat with students
-    │       ├── profile/             # 🎓 Teacher profile
-    │       └── settings/            # ⚙️ App settings
+    │       ├── dashboard/                # 📊 Teacher home
+    │       ├── courses/                  # 📚 Course management
+    │       ├── create-course/            # 📝 Course builder
+    │       ├── analytics/                # 📈 Teaching analytics
+    │       ├── students/                 # 👥 Student management
+    │       ├── messages/                 # 💬 Chat with students
+    │       ├── profile/                  # 🎓 Teacher profile
+    │       └── settings/                 # ⚙️ App settings
     │
     ├── components/
-    │   ├── 📄 Sidebar.tsx           # Navigation sidebar
-    │   └── 📄 DashboardLayout.tsx   # Auth-protected layout
+    │   ├── 📄 Sidebar.tsx                # Role-aware navigation
+    │   ├── 📄 DashboardLayout.tsx        # Auth-protected layout
+    │   └── 📄 NotificationBell.tsx       # Real-time notifications
     │
     └── lib/
-        ├── 📄 firebase.ts           # Firebase initialization
-        ├── 📄 auth-context.tsx      # Auth state management
-        ├── 📄 courses-data.ts       # Course catalog (8 courses)
-        └── 📄 utils.ts              # XP/Level helpers
+        ├── 📄 firebase.ts                # Firebase initialization
+        ├── 📄 auth-context.tsx           # Auth state management
+        ├── 📄 firestore-helpers.ts       # DB helper functions
+        ├── 📄 courses-data.ts            # Course catalog data
+        └── 📄 utils.ts                   # XP/Level/format helpers
 ```
 
 ---
 
-## � Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18+
-- npm or yarn
-- Firebase account (free)
+- npm
+- Firebase account (free Spark plan)
 
 ### 1. Clone the Repository
 
@@ -213,7 +265,7 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
 npm run dev
 ```
 
-Open **[http://localhost:3000](http://localhost:3000)** 🚀
+Open **[http://localhost:3000](http://localhost:3000)**
 
 ### 5. Build for Production
 
@@ -227,7 +279,7 @@ npm start
 ## 🔥 Firebase Setup
 
 ### Step 1 — Create Project
-Go to [console.firebase.google.com](https://console.firebase.google.com) → Create project → `edunexa`
+[console.firebase.google.com](https://console.firebase.google.com) → Create project → `edunexa`
 
 ### Step 2 — Enable Authentication
 `Build → Authentication → Get started`
@@ -240,9 +292,7 @@ Go to [console.firebase.google.com](https://console.firebase.google.com) → Cre
 - Mode: **Test mode**
 - Location: **asia-south1** (Mumbai)
 
-### Step 4 — Firestore Rules
-`Firestore → Rules tab` → Paste:
-
+### Step 4 — Firestore Security Rules
 ```js
 rules_version = '2';
 service cloud.firestore {
@@ -253,49 +303,109 @@ service cloud.firestore {
   }
 }
 ```
-→ Click **Publish**
 
-### Step 5 — Get Config
-`⚙️ Project Settings → Your apps → Config` → Copy to `.env.local`
+### Step 5 — Firestore Collections Schema
+
+```
+users/
+  └── {uid}/
+        ├── displayName, email, photoURL
+        ├── role: "student" | "teacher"
+        ├── xp, level, streak
+        ├── enrolledCourses[], skills[]
+        └── createdAt
+
+enrollments/
+  └── {uid_courseId}/
+        ├── uid, courseId, progress
+        ├── completedLessons[]
+        └── enrolledAt
+
+chats/
+  └── {chatId}/
+        └── messages/
+              ├── from, to, text
+              └── createdAt
+
+notifications/
+  └── {notifId}/
+        ├── uid, title, message
+        ├── type, read
+        └── createdAt
+
+quizResults/
+  └── {resultId}/
+        ├── uid, courseId, score
+        ├── total, percentage
+        └── submittedAt
+```
 
 ---
 
-## �️ Pages & Routes
+## 🗺️ Pages & Routes
 
 | Route | Description | Access |
 |-------|-------------|--------|
-| `/` | Landing page | Public |
-| `/auth/login` | Login (Google/GitHub/Email) | Public |
-| `/auth/register` | Register as Student/Teacher | Public |
-| `/auth/reset-password` | Password reset | Public |
-| `/student/dashboard` | Student home with stats | Student |
-| `/student/courses` | Browse 850+ courses | Student |
+| `/` | Landing page with hero & features | Public |
+| `/auth/login` | Login with Google/GitHub/Email | Public |
+| `/auth/register` | Register as Student or Teacher | Public |
+| `/auth/reset-password` | Password reset via email | Public |
+| `/student/dashboard` | Student home with stats & charts | Student |
+| `/student/courses` | Browse & enroll in courses | Student |
 | `/student/courses/[id]` | Course player + curriculum | Student |
-| `/student/progress` | Learning analytics | Student |
-| `/student/achievements` | Badges + leaderboard | Student |
+| `/student/progress` | Learning analytics & charts | Student |
+| `/student/achievements` | Badges & global leaderboard | Student |
+| `/student/quiz/[courseId]` | Course quiz with scoring | Student |
+| `/student/certificate/[courseId]` | Certificate generator | Student |
 | `/student/messages` | Chat with teachers | Student |
 | `/student/profile` | Edit profile + skills | Student |
 | `/student/settings` | Notifications + privacy | Student |
-| `/teacher/dashboard` | Teacher overview | Teacher |
+| `/teacher/dashboard` | Teacher overview & charts | Teacher |
 | `/teacher/create-course` | Build new course | Teacher |
-| `/teacher/courses` | Manage courses | Teacher |
-| `/teacher/analytics` | Performance charts | Teacher |
-| `/teacher/students` | Student management | Teacher |
+| `/teacher/courses` | Manage published courses | Teacher |
+| `/teacher/analytics` | Performance analytics | Teacher |
+| `/teacher/students` | Student management table | Teacher |
 | `/teacher/messages` | Chat with students | Teacher |
 | `/teacher/profile` | Teacher profile | Teacher |
 | `/teacher/settings` | Teacher settings | Teacher |
 
 ---
 
-## 🎨 Design Highlights
+## 🏗️ Architecture
 
 ```
-Background:  Pure #000000 Black
-Cards:       rgba(10,10,10,0.8) + backdrop-blur-xl
-Border:      rgba(255,255,255,0.08)
-Gradient:    indigo-400 → purple-400 → pink-400
-Orbs:        8% opacity animated blobs
-Font:        Inter (system-ui fallback)
+┌─────────────────────────────────────────────────────┐
+│                   CLIENT BROWSER                     │
+│                                                      │
+│  ┌─────────────────────────────────────────────┐    │
+│  │           Next.js 15 App Router              │    │
+│  │                                              │    │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  │    │
+│  │  │  Student  │  │ Teacher  │  │   Auth   │  │    │
+│  │  │  Module   │  │  Module  │  │  Pages   │  │    │
+│  │  └──────────┘  └──────────┘  └──────────┘  │    │
+│  │                                              │    │
+│  │  ┌──────────────────────────────────────┐   │    │
+│  │  │     React Components + Tailwind CSS   │   │    │
+│  │  └──────────────────────────────────────┘   │    │
+│  └─────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────┐
+│                  FIREBASE BACKEND                    │
+│                                                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────┐  │
+│  │  Firebase    │  │  Firestore   │  │ Firebase │  │
+│  │    Auth      │  │   Database   │  │ Storage  │  │
+│  │              │  │              │  │          │  │
+│  │ • Google     │  │ • users      │  │ • Avatars│  │
+│  │ • GitHub     │  │ • enrollments│  │ • Thumbs │  │
+│  │ • Email/Pass │  │ • chats      │  │          │  │
+│  └──────────────┘  │ • notifs     │  └──────────┘  │
+│                    │ • quizResults│                  │
+│                    └──────────────┘                  │
+└─────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -303,44 +413,47 @@ Font:        Inter (system-ui fallback)
 ## 📊 Data Flow
 
 ```
-User Login (Firebase Auth)
-        ↓
-Create/Fetch Profile (Firestore)
-        ↓
-Role Check (student / teacher)
-        ↓
-Redirect to Dashboard
-        ↓
-Real-time Data Updates (Firestore)
+User Opens App
+      │
+      ▼
+Firebase Auth Check
+      │
+   ┌──┴──┐
+   │     │
+Not    Logged In
+Logged     │
+In         ▼
+│    Fetch Firestore Profile
+│          │
+▼          ▼
+Login   Role Check
+Page    │        │
+      Student  Teacher
+        │        │
+        ▼        ▼
+    Student   Teacher
+    Dashboard Dashboard
+        │        │
+        ▼        ▼
+    Real-time Firestore Updates
+    (XP, Progress, Messages, Notifications)
 ```
 
 ---
 
-## 🏗️ Architecture
+## 🎮 Gamification System
 
 ```
-┌─────────────────────────────────────┐
-│           Next.js 14 App            │
-│         (App Router + RSC)          │
-├──────────────┬──────────────────────┤
-│  Auth Layer  │    UI Components     │
-│  (Firebase)  │  (Tailwind + Framer) │
-├──────────────┼──────────────────────┤
-│  Firestore   │    Static Data       │
-│  (User Data) │  (Course Catalog)    │
-└──────────────┴──────────────────────┘
+Lesson Complete  → +50 XP
+Quiz Perfect     → +200 XP
+Quiz Partial     → +XP proportional to score
+Badge Earned     → +50 to +2000 XP
+Course Complete  → Certificate unlocked
+
+XP Formula:
+Level = floor(XP / 500) + 1
+Progress % = ((XP - (level-1)*500) / 500) * 100
 ```
-
----
-
-## 👨‍💻 Team
-
-| Name | Role | Institute |
-|------|------|-----------|
-| **Arun Kumar Giri** | Full Stack Developer | IIT Patna |
-
-**Capstone Project I — IIT Patna**
-*Hybrid Program in Full Stack Development*
 
 ---
 
@@ -354,10 +467,10 @@ This project is part of **IIT Patna Capstone Project I** academic curriculum.
 
 **Built with 🖤 by Arun Kumar Giri**
 
-*IIT Patna Capstone Project I — 2026*
+*Roll No: UA2504AIH48 | IIT Patna | Capstone Project I | May 2026*
 
-[![Next.js](https://img.shields.io/badge/Next.js-black?style=flat&logo=next.js)](https://nextjs.org)
-[![Firebase](https://img.shields.io/badge/Firebase-orange?style=flat&logo=firebase)](https://firebase.google.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=flat&logo=typescript)](https://typescriptlang.org)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Now-6366f1?style=for-the-badge)](https://indian-institute-of-technology-caps-sigma.vercel.app)
+[![PPT](https://img.shields.io/badge/📊_Presentation-Google_Drive-ea4335?style=for-the-badge)](https://drive.google.com/file/d/1wF_JCYK5EZoag7l-lwTFLcdrF1IkY7Vn/view)
+[![Repo](https://img.shields.io/badge/📁_GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/ArPriCode/Indian-Institute-of-Technology-Capstone-Project-I)
 
 </div>
